@@ -2,20 +2,23 @@ class Tree
 	attr_accessor :children, :node_name
 
 	def initialize(treedef)
-		treedef.each do
-			|p,c|
-			@node_name = p
-			unless c == {}
-				@children = Tree.new(c)
+		unless treedef.empty?
+			treedef.each do |p,c|
+				@children =[]
+				c.each do |key, value|
+					@children << Tree.new({ key => value})
 				end
+				@node_name = p
+
 			end
+		end
 	end
 
 	def visit_all(&block)
 		visit &block
-		unless children == nil
-			children.visit_all &block
-			end
+		@children.each do |child|
+		 	child.visit_all &block
+	 	end
 	end
 
 	def visit(&block)
