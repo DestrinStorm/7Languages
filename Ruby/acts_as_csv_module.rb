@@ -25,12 +25,12 @@ module ActsAsCsv
       @headers = file.gets.chomp.split(', ')
 
       file.each do |row|
-        @csv_contents << row.chomp.split(', ')
+        @csv_contents << CsvRow.new(headers,row.chomp.split(', '))
       end
     end
     
     def each(&block)
-      self.csv_contents.each &block
+      csv_contents.each(&block)
     end
 
     attr_accessor :headers, :csv_contents
@@ -45,7 +45,22 @@ class RubyCsv  # no inheritance! You can mix it in
   acts_as_csv
 end
 
+class CsvRow
+  attr_accessor :row_contents
+  def initialize(headers,rowdata)
+    @rowcontents = {}
+    for i in 0..(headers.length-1) do
+      @rowcontents.store(headers[i],rowdata[i])
+    end
+  end
+
+  def method_missing(name, *args)
+    header = name.to_s
+    @rowcontents[header]
+  end
+end
+
 m = RubyCsv.new
 puts m.headers.inspect
 puts m.csv_contents.inspect
-m.each {|row| puts row}
+m.each {|row| puts row.one}
