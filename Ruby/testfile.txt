@@ -1,0 +1,7 @@
+The first parameter is the filename. The second is the mode string, which lets you open the
+file for reading, writing, or both. (Here we opened testfile for reading with an "r". We could
+also have used "w" for write or "r+" for read-write. The full list of allowed modes appears
+on page 547.) You can also optionally specify file permissions when creating a file; see the
+description of File.new on page 512 for details. After opening the file, we can work with
+it, writing and/or reading data as needed. Finally, as responsible software citizens, we close
+the file, ensuring that all buffered data is written and that all related resources are freed.
